@@ -12,3 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
+
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+        # password = validated_data.pop("password")
+        # user = User(**validated_data)
+        # user.set_password(password)
+        # user.save()
+        # return user

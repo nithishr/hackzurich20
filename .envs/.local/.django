@@ -1,4 +1,4 @@
 # General
 # ------------------------------------------------------------------------------
-USE_DOCKER=yes
+USE_DOCKER=no
 IPYTHONDIR=/app/.ipython
