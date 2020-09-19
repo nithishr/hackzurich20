@@ -14,6 +14,14 @@ Awesome project to bring remote teams together
 :License: MIT
 
 
+Initial Setup
+--------
+* Copy the example env file::
+
+    $ cp example.env .env
+
+* Set the DATABASE_URL to the one in slack
+
 Settings
 --------
 
