@@ -1,10 +1,10 @@
 from django.urls import path
 
 from includoo.graph.views import (
-    index
+    EdgeAPI
 )
 
 app_name = "graph"
 urlpatterns = [
-    path("get_connections/", view=index),
+    path("list_edges/", view=EdgeAPI.as_view()),
 ]
