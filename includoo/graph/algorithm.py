@@ -60,7 +60,7 @@ def get_meeting(meeting_interestsA, meeting_interestsB):
             return index
     return None
 
-def match(G):
+def match(G, topic_interests, meeting_interests):
     compute_flow(G)
     #dump_flows(G)
     nodes_flow = sorted(G.nodes, key=lambda x: G.nodes[x]["flow"])
@@ -70,9 +70,9 @@ def match(G):
         if nodeA in matched:
             continue
         interest_scores = dict()
-        interestsA = square_graph_interests[nodeA]
+        interestsA = topic_interests[nodeA]
         for nodeB in G.nodes:
-            interestsB = square_graph_interests[nodeB]
+            interestsB = topic_interests[nodeB]
             interest_scores[nodeB] = compute_interest_score(interestsA, interestsB)
         matches = [(compute_final_score(G.nodes[other]["flow"], interest_scores[other]), other) for other in G.nodes]
         matches = sorted(matches, key=lambda x: x[0], reverse=True)
@@ -97,5 +97,6 @@ def list_to_nx(nodes_list, edges_list):
     nx_graph = nx_graph.to_undirected()
     return nx_graph
 
-G = list_to_nx(square_graph_nodes, square_graph_edges)
-print(match(G))
+def compute_match(nodes_list, edges_list, topic_interests, meeting_interests):
+    nx_graph = list_to_nx(nodes_list, edges_list)
+    return match(nx_graph, topic_interests, meeting_interests)
