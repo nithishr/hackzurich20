@@ -39,4 +39,4 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
         email = request.data.pop("email")
         User.objects.filter(email=email).update(**request.data)
 
-        return Response()
+        return Response(status=status.HTTP_200_OK)
