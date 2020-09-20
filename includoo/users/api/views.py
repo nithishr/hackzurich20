@@ -33,3 +33,10 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
         queryset = User.objects.all()
         serializer = UserSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
+
+
+    def put(self, request, *args, **kwargs):
+        email = request.data.pop("email")
+        User.objects.filter(email=email).update(**request.data)
+
+        return Response()
