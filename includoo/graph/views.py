@@ -40,26 +40,30 @@ class EdgeAPI(APIView):
             else:
                 e.update(user2=s_user[0], user1=r_user[0], weight=weight)
 
+        meeting_suggestions = get_meeting_suggestions()
+        return Response(meeting_suggestions)
 
-        return Response()
 
+def get_meeting_suggestions():
+    nodes = User.objects.all()
+    node_list = user_set_to_node_list(nodes)
+    print(node_list)
+    edges = Edge.objects.all()
+    edge_list = edge_set_to_edge_list(edges)
+    topic_interests = user_set_to_topic_interests(nodes)
+    print(topic_interests)
+    meeting_interests = user_set_to_meeting_interests(nodes)
+    print(meeting_interests)
+    #serializer = EdgeSerializer(edges, many=True)
+    matches = compute_match(node_list, edge_list, topic_interests,
+                            meeting_interests)
+    result = match_to_meeting(matches)
+    return result
 
 class MatchAPI(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        nodes = User.objects.all()
-        node_list = user_set_to_node_list(nodes)
-        print(node_list)
-        edges = Edge.objects.all()
-        edge_list = edge_set_to_edge_list(edges)
-        topic_interests = user_set_to_topic_interests(nodes)
-        print(topic_interests)
-        meeting_interests = user_set_to_meeting_interests(nodes)
-        print(meeting_interests)
-        #serializer = EdgeSerializer(edges, many=True)
-        matches = compute_match(node_list, edge_list, topic_interests,
-                                meeting_interests)
-        result = match_to_meeting(matches)
-        return Response(result)
+        suggestions = get_meeting_suggestions()
+        return Response(suggestions)
         #return Response(serializer.data)
